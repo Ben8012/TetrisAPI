@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoUser", "DemoUser\DemoUser.csproj", "{CC2BF51F-B0D0-49F6-9DE3-E61833076D57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TetrisAPI", "DemoUser\TetrisAPI.csproj", "{CC2BF51F-B0D0-49F6-9DE3-E61833076D57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{27E454D1-C257-43BA-8EDF-AA931A049003}"
 EndProject
