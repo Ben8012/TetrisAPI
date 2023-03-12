@@ -29,7 +29,7 @@ namespace DemoUser.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            Command command = new Command("SELECT Id, Name, Email, Point FROM [User]", false);
+            Command command = new Command("SELECT Id, Name, Email, Point, IsActive FROM [User]", false);
 
             try
             {
@@ -117,7 +117,19 @@ namespace DemoUser.Controllers
 
             try
             {
-                return Ok(_connection.ExecuteNonQuery(command));
+                _connection.ExecuteNonQuery(command);
+                UserDB user= GetUserById(id);
+
+                UserWithToken userWithToken = new UserWithToken()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Token = _tokenManager.GenerateJWTUser(user)
+
+                };
+                return Ok(userWithToken);
+               
             }
             catch (Exception ex)
             {
@@ -125,7 +137,7 @@ namespace DemoUser.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             //Command command = new Command("DELETE FROM [User] WHERE Id = @Id ",false);
@@ -163,7 +175,7 @@ namespace DemoUser.Controllers
                 bool verified = BCrypt.Net.BCrypt.Verify(form.Password, passwordHash);
                 if (!verified) return NotFound(new { message = "Le mot de passe est invalide" });
 
-                Command command1 = new Command("SELECT [User].Id, [User].Name,[User].Email,[User].Point FROM [User] WHERE [User].Email = @Email AND [User].IsActive = 1", false);
+                Command command1 = new Command("SELECT [User].Id, [User].Name,[User].Email,[User].Point, [User].IsActive FROM [User] WHERE [User].Email = @Email AND [User].IsActive = 1", false);
                 command1.AddParameter("Email", form.Email);
 
                 try
@@ -235,7 +247,7 @@ namespace DemoUser.Controllers
 
         private UserDB? GetUserById(int? id)
         {
-            Command command = new Command("SELECT [User].Id, [User].Name, [User].Email, [User].Point FROM [User] WHERE [User].Id = @Id AND [User].IsActive = 1", false);
+            Command command = new Command("SELECT [User].Id, [User].Name, [User].Email, [User].Point,[user].IsActive FROM [User] WHERE [User].Id = @Id AND [User].IsActive = 1", false);
             command.AddParameter("Id", id);
 
             return _connection.ExecuteReader(command, dr => dr.ToUser()).SingleOrDefault();

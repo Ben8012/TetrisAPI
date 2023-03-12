@@ -14,7 +14,8 @@ namespace DemoUser.Mappers.UserMapper
                 Id = (int)reader["Id"],
                 Name = (string)reader["Name"],
                 Email = (string)reader["Email"],
-                Point = (int)reader["Point"]
+                Point = (int)reader["Point"],
+                IsActive = (bool)reader["IsActive"]
             };
 
         }
