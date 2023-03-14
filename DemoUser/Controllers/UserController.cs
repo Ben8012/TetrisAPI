@@ -73,15 +73,15 @@ namespace DemoUser.Controllers
             //form.Lastname = "tom";
             //form.Email = "tom@mail.com";
             //form.Passwd = "Test1234=";
-
+        
             form.Password =  BCrypt.Net.BCrypt.HashPassword(form.Password);
 
             Command command = new Command("INSERT INTO [User] ([Name],[Email],[Password],[Point],[IsActive]) OUTPUT inserted.id VALUES(@Name, @Email, @Password,@Point, @IsActive)", false);
             command.AddParameter("Name", form.Name);
             command.AddParameter("Email", form.Email);
             command.AddParameter("Password", form.Password);
-            command.AddParameter("Point", 0);
-            command.AddParameter("IsActive", 1);
+            command.AddParameter("Point", form.Point);
+            command.AddParameter("IsActive", form.IsActive);
             try
             {
                 int? id = (int?)_connection.ExecuteScalar(command);

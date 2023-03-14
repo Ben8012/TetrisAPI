@@ -12,5 +12,9 @@ namespace DemoUser.Models.Froms.FromsUser
 
         [Required]
         public string Password { get; set; }
+
+        public int Point { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
